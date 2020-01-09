@@ -61,4 +61,26 @@ defmodule Chapter2Exercise2Test do
              [5, 6, 7]
            ]
   end
+
+  # chunk_while
+
+  test "Enum.concat/1" do
+    assert Enum.concat([[1, 2, 3], [4, 5, 6]]) == [1, 2, 3, 4, 5, 6]
+  end
+
+  test "Enum.concat/2" do
+    assert Enum.concat([1, 2, 3], [4, 5, 6]) == [1, 2, 3, 4, 5, 6]
+  end
+
+  test "Enum.count/1" do
+    assert Enum.count([1, 2, 3]) == 3
+  end
+
+  test "Enum.count/2" do
+    assert Enum.count([1, 2, 3, :four], &is_number/1) == 3
+  end
+
+  test "Enum.dedup/1" do
+    assert Enum.dedup([1, 1, 2, 3, 3]) == [1, 2, 3]
+  end
 end
