@@ -3,7 +3,7 @@ defmodule Chapter2.Exercise1 do
     0
   end
 
-  def sum([ head | tail ]) do
+  def sum([head | tail]) do
     head + sum(tail)
   end
 
