@@ -1,6 +1,8 @@
 defmodule Chapter2Exercise2Test do
   use ExUnit.Case
 
+  import Mock
+
   test "Enum.map" do
     assert Enum.map([1, 2, 3], fn x -> x * 2 end) == [2, 4, 6]
   end
@@ -106,5 +108,60 @@ defmodule Chapter2Exercise2Test do
 
   test "Enum.drop_while/2" do
     assert Enum.drop_while([1, 2, 3, :two, 4, 5, 6], &is_number/1) == [:two, 4, 5, 6]
+  end
+
+  test "Enum.each/2" do
+    with_mock IO, [:passthrough], [] do
+      assert Enum.each([1, 2, 3], fn x -> IO.puts(x) end)
+      assert_called(IO.puts(1))
+      assert_called(IO.puts(2))
+      assert_called(IO.puts(3))
+    end
+  end
+
+  test "Enum.empty/1" do
+    assert Enum.empty?([]) == true
+    assert Enum.empty?([1, 2, 3]) == false
+  end
+
+  test "Enum.fetch!/1" do
+    assert Enum.fetch!([1, 2, 3], 1) == 2
+  end
+
+  test "Enum.fetch/1" do
+    assert Enum.fetch([1, 2, 3], 1) == {:ok, 2}
+    assert Enum.fetch([1, 2, 3], 4) == :error
+  end
+
+  test "Enum.filter/2" do
+    assert Enum.filter([1, 2, 3, :two, :four], &is_number/1) == [1, 2, 3]
+  end
+
+  test "Enum.find/2" do
+    assert Enum.find([1, 2, 3], fn x -> x == 2 end) == 2
+    assert Enum.find([1, 2, 3], fn x -> x == 4 end) == nil
+  end
+
+  test "Enum.find/3" do
+    assert Enum.find([1, 2, 3], :default, fn x -> x == 2 end) == 2
+    assert Enum.find([1, 2, 3], :default, fn x -> x == 4 end) == :default
+  end
+
+  test "Enum.find_index/2" do
+    assert Enum.find_index([1, 2, 3], fn x -> x == 2 end) == 1
+  end
+
+  test "Enum.find_value/2" do
+    assert Enum.find_value([1, 2, 3], fn x -> x == 2 end) == true
+    assert Enum.find_value([1, 2, 3], fn x -> x == 4 end) == nil
+  end
+
+  test "Enum.find_value/3" do
+    assert Enum.find_value([1, 2, 3], :default, fn x -> x == 2 end) == true
+    assert Enum.find_value([1, 2, 3], :default, fn x -> x == 4 end) == :default
+  end
+
+  test "Enum.flat_map/2" do
+    assert Enum.flat_map([1, 2, 3], fn x -> [x, x] end) == [1, 1, 2, 2, 3, 3]
   end
 end
