@@ -164,4 +164,27 @@ defmodule Chapter2Exercise2Test do
   test "Enum.flat_map/2" do
     assert Enum.flat_map([1, 2, 3], fn x -> [x, x] end) == [1, 1, 2, 2, 3, 3]
   end
+
+  test "Enum.flat_map_reduce/3" do
+    assert Enum.flat_map_reduce([1, 2, 3], 0, fn x, acc -> {[x, x], acc + x} end) ==
+             {[1, 1, 2, 2, 3, 3], 6}
+  end
+
+  test "Enum.group_by/2" do
+    assert Enum.group_by(~w(hello world goodbye hello), &String.length/1) == %{
+             5 => ["hello", "world", "hello"],
+             7 => ["goodbye"]
+           }
+  end
+
+  test "Enum.group_by/3" do
+    assert Enum.group_by(~w(hello world goodbye hello), &String.length/1, &String.first/1) == %{
+             5 => ["h", "w", "h"],
+             7 => ["g"]
+           }
+  end
+
+  test "Enum.intersperse/2" do
+    assert Enum.intersperse([1, 2, 3], :join) == [1, :join, 2, :join, 3]
+  end
 end
