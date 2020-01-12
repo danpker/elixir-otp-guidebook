@@ -83,4 +83,28 @@ defmodule Chapter2Exercise2Test do
   test "Enum.dedup/1" do
     assert Enum.dedup([1, 1, 2, 3, 3]) == [1, 2, 3]
   end
+
+  test "Enum.dedup_by/2" do
+    assert Enum.dedup_by([{1, 2}, {2, 1}, {3, 4}, {1, 1}, {0, 2}], fn {x, y} -> x + y end) == [
+             {1, 2},
+             {3, 4},
+             {1, 1}
+           ]
+  end
+
+  test "Enum.drop/2" do
+    assert Enum.drop([1, 2, 3], 2) == [3]
+    assert Enum.drop([1, 2, 3], 0) == [1, 2, 3]
+    assert Enum.drop([1, 2, 3], -1) == [1, 2]
+  end
+
+  test "Enum.drop_every/2" do
+    assert Enum.drop_every(1..10, 2) == [2, 4, 6, 8, 10]
+    assert Enum.drop_every(1..10, 3) == [2, 3, 5, 6, 8, 9]
+    assert Enum.drop_every(1..10, 0) == [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+  end
+
+  test "Enum.drop_while/2" do
+    assert Enum.drop_while([1, 2, 3, :two, 4, 5, 6], &is_number/1) == [:two, 4, 5, 6]
+  end
 end
